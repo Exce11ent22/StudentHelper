@@ -1,0 +1,30 @@
+.login-header-header {
+  width: 100%;
+  display: flex;
+  max-width: 1400px;
+  align-self: center;
+  align-items: center;
+  padding-top: var(--dl-space-space-twounits);
+  padding-left: var(--dl-space-space-threeunits);
+  padding-right: var(--dl-space-space-threeunits);
+  padding-bottom: var(--dl-space-space-twounits);
+  justify-content: space-between;
+}
+.login-header-navlink {
+  display: contents;
+}
+.login-header-text {
+  text-decoration: none;
+}
+
+@media(max-width: 767px) {
+  .login-header-header {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+}
+@media(max-width: 479px) {
+  .login-header-header {
+    padding: var(--dl-space-space-unit);
+  }
+}

@@ -2,12 +2,14 @@
 Форум для взаимопомощи студентов с группировкой по учебным заведениям и предметам, с возможностью финансовой поддержки самых активных и полезных пользователей ресурса.
 
 ## Документы 
+* [Курсовой проект]()
 * [Техническое задание](https://github.com/Exce11ent22/StudentHelper/blob/main/Documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%5BCool%20Student%20Helper%5D.pdf) проекта
-* [Блок схема](https://miro.com/app/board/uXjVOFsfR2g=/) юзкейсов и драфтового дизайна проекна на Miro.com
+* [Блок схема](https://miro.com/app/board/uXjVOFsfR2g=/) юзкейсов и драфтового дизайна проекта на Miro.com
 * [Таск-менеджер](https://coolstudenthelper.atlassian.net/jira/software/projects/STUDH/boards/1) команды Jira
+* [Сценарии воронок](https://miro.com/app/board/uXjVO5ZXfLA=/?share_link_id=589020279255)
+* [Swagger]() автоматическая документация
 
 ## Авторы
-
 * Крикунов Иван (emperor.krikunov@mail.ru)
 * Всеволод Соколов (foxolov@mail.ru)
 * Шебалин Александр (alexcandr2001@mail.ru)

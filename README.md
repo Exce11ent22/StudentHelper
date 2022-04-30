@@ -7,7 +7,7 @@
 * [Блок схема](https://miro.com/app/board/uXjVOFsfR2g=/) юзкейсов и драфтового дизайна проекта на Miro.com
 * [Таск-менеджер](https://coolstudenthelper.atlassian.net/jira/software/projects/STUDH/boards/1) команды Jira
 * [Сценарии воронок](https://miro.com/app/board/uXjVO5ZXfLA=/?share_link_id=589020279255)
-* [Swagger]() автоматическая документация
+* [Swagger](https://github.com/Exce11ent22/StudentHelper/tree/main/Documents/swagger%20doc) автоматическая документация
 
 ## Авторы
 * Крикунов Иван (emperor.krikunov@mail.ru)

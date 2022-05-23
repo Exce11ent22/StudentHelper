@@ -1,0 +1,57 @@
+swagger: "2.0"
+info:
+  description: "Этот удобный форум позволит вам получить помощь по учебным вопросам от других студентов, уже знакомых с пройденными темами. Также вы можете подать заявку на участие в программе 'Лидерборд', по результатам которой вас может ждать вознаграждение в зависимости от вашей активности на форуме."
+  version: "0.2.1"
+  title: "Student Helper"
+  contact:
+    email: "emperor.krikunov@mail.ru"
+host: "student-helper.teleporthq.app"
+basePath: "/"
+tags:
+- name: "questions"
+  description: "Предварительный просмотр списка вопросов"
+- name: "question"
+  description: "Обзор вопроса с возможностью добавления ответов и просмотра других ответов"
+- name: "ask"
+  description: "Создание и выкладывание вопроса на форум"
+- name: "profile"
+  description: "Просмотр личного профиля пользвателя"
+- name: "change"
+  description: "Изменение личного профиля пользователя"
+- name: "verification"
+  description: "Подача заявки на верификацию"
+- name: "liderboard"
+  description: "Список пользователей с их рейтингом по активности"
+schemes:
+- "https"
+paths:
+  /file:
+    post:
+      tags:
+      - "question"
+      summary: "скачивание файла"
+      operationId: "questions"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        schema:
+          $ref: "#/definitions/File"
+      responses:
+        "404":
+          description: "File not found"
+definitions:
+  File:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      file-path:
+        type: "string"
+    xml:
+      name: "File"

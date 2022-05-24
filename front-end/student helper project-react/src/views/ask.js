@@ -28,42 +28,22 @@ const Ask = (props) => {
             placeholder="Не могу взять интеграл, помогите!!! Прикрепил пример интеграла во вложениях!"
             className="ask-textarea textarea"
           ></textarea>
-          <div className="ask-files">
-            <div className="ask-container2">
-              <svg viewBox="0 0 1024 1024" className="ask-icon">
-                <path d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"></path>
-              </svg>
-              <a
-                href="https://example.com"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                https://studenthelper/file/1346134613
-              </a>
-            </div>
-            <div className="ask-container3">
-              <svg viewBox="0 0 1024 1024" className="ask-icon2">
-                <path d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"></path>
-              </svg>
-              <a
-                href="https://example.com"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                https://studenthelper/file/309486098
-              </a>
-            </div>
-          </div>
-          <div className="ask-container4">
-            <select>
+          <label className="formLable">Прикрепить файл</label>
+          <input
+            type="file"
+            required
+            placeholder="ivan.ivanov@mail.ru"
+            className="ask-textinput1 input"
+          />
+          <div className="ask-container2">
+            <select className="ask-select">
               <option value="Option 1" selected>
                 Мат. анализ
               </option>
               <option value="Option 2">Теория вероятностей</option>
               <option value="Option 3">Линейная алгебра</option>
             </select>
-            <button className="button">Прикрепить файл</button>
-            <button className="ask-button1 button">Публиковать</button>
+            <button className="ask-button button">Публиковать</button>
           </div>
         </div>
       </form>

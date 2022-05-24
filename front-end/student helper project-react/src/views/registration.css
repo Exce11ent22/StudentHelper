@@ -93,3 +93,9 @@
     flex-direction: column;
   }
 }
+@media(max-width: 767px) {
+  .registration-form {
+    width: 80%;
+    max-width: var(--dl-size-size-lform);
+  }
+}

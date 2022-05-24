@@ -1,0 +1,45 @@
+.admin-change-role-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.admin-change-role-form {
+  width: var(--dl-size-size-xxlarge);
+  margin: auto;
+}
+.admin-change-role-input {
+  width: 100%;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.admin-change-role-textinput {
+  width: 100%;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.admin-change-role-textinput1 {
+  width: 100%;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.admin-change-role-textinput2 {
+  width: 100%;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.admin-change-role-select {
+  width: 100%;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.admin-change-role-button {
+  width: 100%;
+  text-align: center;
+  transition: 0.3s;
+}
+.admin-change-role-button:hover {
+  color: var(--dl-color-gray-white);
+  transform: scale(1.05);
+  box-shadow: 5px 5px 10px 0px #85d899;
+  border-width: 0px;
+  background-color: var(--dl-color-success-700);
+}

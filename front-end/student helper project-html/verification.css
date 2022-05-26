@@ -1,0 +1,187 @@
+.index-header-header {
+  width: 100%;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  padding-top: var(--dl-space-space-twounits);
+  padding-left: var(--dl-space-space-threeunits);
+  margin-bottom: var(--dl-space-space-unit);
+  padding-right: var(--dl-space-space-threeunits);
+  padding-bottom: var(--dl-space-space-twounits);
+  justify-content: space-between;
+  background-color: var(--dl-color-main-theme-background);
+}
+.index-header-container {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.index-header-navlink {
+  display: contents;
+}
+.index-header-text {
+  color: var(--dl-color-main-theme-text);
+  user-select: none;;
+  text-decoration: none;
+}
+.index-header-btn-group {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.index-header-navlink1 {
+  color: var(--dl-color-main-theme-button);
+  transition: 0.3s;
+  border-width: 0px;
+  text-decoration: none;
+  background-color: var(--dl-color-main-theme-text);
+}
+.index-header-navlink1:hover {
+  transform: scale(1.05);
+}
+
+@media(max-width: 767px) {
+  .index-header-header {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+}
+@media(max-width: 479px) {
+  .index-header-header {
+    padding: var(--dl-space-space-unit);
+  }
+}
+
+.footer-footer {
+  width: 100%;
+  display: flex;
+  align-self: center;
+  margin-top: var(--dl-space-space-twounits);
+  align-items: center;
+  padding-top: var(--dl-space-space-twounits);
+  padding-left: var(--dl-space-space-threeunits);
+  padding-right: var(--dl-space-space-threeunits);
+  padding-bottom: var(--dl-space-space-twounits);
+  justify-content: space-between;
+  background-color: var(--dl-color-main-theme-background);
+}
+.footer-text {
+  color: var(--dl-color-main-theme-text);
+}
+.footer-text1 {
+  color: var(--dl-color-main-theme-text);
+}
+.footer-icon-group {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.footer-icon {
+  fill: var(--dl-color-main-theme-text);
+  width: 24px;
+  height: 24px;
+  margin-right: var(--dl-space-space-twounits);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width: 767px) {
+  .footer-footer {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+  .footer-text1 {
+    text-align: center;
+    margin-left: var(--dl-space-space-unit);
+    margin-right: var(--dl-space-space-unit);
+  }
+}
+@media(max-width: 479px) {
+  .footer-footer {
+    padding: var(--dl-space-space-unit);
+    flex-direction: column;
+  }
+  .footer-text1 {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: var(--dl-space-space-unit);
+  }
+}
+
+.verification-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.verification-form {
+  flex: initial;
+  width: var(--dl-size-size-lform);
+  margin: auto;
+  position: relative;
+  align-self: flex-start;
+}
+.verification-container1 {
+  flex: 0 0 auto;
+  width: var(--dl-size-size-lform);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.verification-textinput {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.verification-textinput1 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.verification-textinput2 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.verification-button {
+  color: var(--dl-color-gray-white);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  transition: 0.3s;
+  margin-left: auto;
+  border-width: 0px;
+  margin-right: auto;
+  background-color: var(--dl-color-gray-black);
+}
+.verification-button:hover {
+  transform: scale(1.05);
+  box-shadow: 5px 5px 10px 0px #85D899;;
+  background-color: var(--dl-color-success-500);
+}
+@media(max-width: 479px) {
+  .verification-form {
+    width: 80%;
+  }
+  .verification-container1 {
+    width: 100%;
+  }
+}

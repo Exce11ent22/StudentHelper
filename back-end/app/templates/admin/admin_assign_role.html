@@ -107,30 +107,30 @@
         >
           <div class="admin-header-container">
             <a href="{{ url_for('index') }}" class="admin-header-navlink">
-              <h1 class="admin-header-text"><span>Student Helper</span></h1>
+              <h1 class="admin-header-text"><span>SH Admin</span></h1>
             </a>
             <div class="admin-header-nav">
               <nav class="admin-navigation-links-admin-navigation-links">
                 <a
-                  href="admin_questions.html"
+                  href="{{ url_for('admin.questions') }}"
                   class="admin-navigation-links-navlink"
                 >
                   <span>Вопросы</span>
                 </a>
                 <a
-                  href="admin_assign_role.html"
+                  href="{{ url_for('admin.assign_role') }}"
                   class="admin-navigation-links-navlink1"
                 >
                   <span>Назначить роль</span>
                 </a>
                 <a
-                  href="admin_list_of_administrators.html"
+                  href="{{ url_for('admin.list_of_admins') }}"
                   class="admin-navigation-links-navlink2"
                 >
                   <span>Список модераторов</span>
                 </a>
                 <a
-                  href="admin_verifications.html"
+                  href="{{ url_for('admin.verifications') }}"
                   class="admin-navigation-links-navlink3"
                 >
                   <span>Заявки на верификацию</span>
@@ -150,20 +150,21 @@
         {% endif %}
         {% endwith %}
 
-        <form class="admin-assign-role-form">
+        <form class="admin-assign-role-form" method="post">
           <label class="formLable">e-mail</label>
           <input
+            name="email"
             type="email"
             required
             placeholder="ivanivanov@mail.ru"
             class="admin-assign-role-textinput input"
           />
           <label class="formLable">Выберите роль</label>
-          <select required class="admin-assign-role-select">
+          <select required class="admin-assign-role-select" name="role">
             <option value="administrator" selected>Администратор</option>
             <option value="moderator">Модератор</option>
           </select>
-          <button class="admin-assign-role-button button">
+          <button class="admin-assign-role-button button" type="submit">
             Назначить роль
           </button>
         </form>
@@ -171,8 +172,7 @@
           <h1 class="footer-text"><span>SH</span></h1>
           <span class="footer-text1">
             <span>
-              Контакты: admin@mail.ru | +7-(999)-888-77-66 | admin panel |
-              refresh leaderboard
+              Контакты: admin@mail.ru | +7-(999)-888-77-66
             </span>
           </span>
           <div class="footer-icon-group">

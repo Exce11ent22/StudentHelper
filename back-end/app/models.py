@@ -1,13 +1,17 @@
 from datetime import datetime
 
+from flask_login import UserMixin
+from safrs import SAFRSBase
 from sqlalchemy import UniqueConstraint
 
 from app import db
+from app import api
 
-from flask_login import UserMixin
 
-
-class User(db.Model, UserMixin):
+class User(SAFRSBase, db.Model, UserMixin):
+    """
+        description: Работа с пользователем
+    """
     USER = 1
     MODERATOR = 2
     ADMINISTRATOR = 3
@@ -35,7 +39,10 @@ class User(db.Model, UserMixin):
         return "User %r" % self.id
 
 
-class Question(db.Model):
+class Question(SAFRSBase, db.Model):
+    """
+        description: Взаимодействие с вопросами
+    """
     __tablename__ = "question"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
@@ -50,7 +57,10 @@ class Question(db.Model):
         return "Question %r" % self.id
 
 
-class Answer(db.Model):
+class Answer(SAFRSBase, db.Model):
+    """
+    description: Взаимодействие с ответами
+    """
     __tablename__ = "answer"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
@@ -64,7 +74,10 @@ class Answer(db.Model):
         return "Answer %r" % self.id
 
 
-class Verification(db.Model):
+class Verification(SAFRSBase, db.Model):
+    """
+    description: Заявки на верификацию
+    """
     __tablename__ = "verification"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False, unique=True)
@@ -74,7 +87,10 @@ class Verification(db.Model):
         return "Verification %r" % self.id
 
 
-class Leaderboard(db.Model):
+class Leaderboard(SAFRSBase, db.Model):
+    """
+    description: Описание таблицы лидеров
+    """
     __tablename__ = "leaderboard"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False, unique=True)
@@ -85,7 +101,10 @@ class Leaderboard(db.Model):
         return "Leaderboard %r" % self.id
 
 
-class LeaderboardTimestamp(db.Model):
+class LeaderboardTimestamp(SAFRSBase, db.Model):
+    """
+    description: Описание снимка таблицы лидеров
+    """
     __tablename__ = "leaderboard_timestamp"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False, unique=True)
@@ -95,7 +114,10 @@ class LeaderboardTimestamp(db.Model):
         return "LeaderboardTimestamp %r" % self.id
 
 
-class UserAndQuestion(db.Model):
+class UserAndQuestion(SAFRSBase, db.Model):
+    """
+    description: Взаимодействие пользователь -> вопрос
+    """
     __tablename__ = "user_and_question"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
@@ -107,7 +129,10 @@ class UserAndQuestion(db.Model):
         return "UserAndQuestion %r" % self.id
 
 
-class UserAndAnswer(db.Model):
+class UserAndAnswer(SAFRSBase, db.Model):
+    """
+    description: Взаимодействие пользователь -> ответ
+    """
     __tablename__ = "user_and_answer"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
@@ -117,6 +142,16 @@ class UserAndAnswer(db.Model):
 
     def __repr__(self):
         return "UserAndAnswer %r" % self.id
+
+
+api.expose_object(User)
+api.expose_object(Question)
+api.expose_object(Answer)
+api.expose_object(Verification)
+api.expose_object(Leaderboard)
+api.expose_object(LeaderboardTimestamp)
+api.expose_object(UserAndQuestion)
+api.expose_object(UserAndAnswer)
 
 
 if __name__ == '__main__':

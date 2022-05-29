@@ -108,17 +108,11 @@
         {% endif %}
         {% endwith %}
 
-        <form class="verification-form">
+        <form class="verification-form" method="post" enctype="multipart/form-data">
           <div class="verification-container1">
-            <label class="formLable">Ваш факультет:</label>
-            <input
-              type="text"
-              required
-              placeholder="Факультет компьютерных наук"
-              class="verification-textinput input"
-            />
             <label class="formLable">Ваша специальность</label>
             <input
+              name="speciality"
               type="text"
               required
               placeholder="Программная инженерия"
@@ -126,13 +120,14 @@
             />
             <label class="formLable">Загрузить фото студенческого [*.jpg, *.png]</label>
             <input
+              name="file"
               accept=".jpg, .png"
               type="file"
               required
               placeholder="ivan.ivanov@mail.ru"
               class="verification-textinput2 input"
             />
-            <button class="verification-button button">
+            <button class="verification-button button" type="submit">
               Отправить данные на верификацию
             </button>
           </div>

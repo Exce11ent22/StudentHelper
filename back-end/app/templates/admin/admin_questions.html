@@ -84,30 +84,30 @@
         <header data-role="Header" class="admin-header-admin-header">
           <div class="admin-header-container">
             <a href="{{ url_for('index') }}" class="admin-header-navlink">
-              <h1 class="admin-header-text"><span>Student Helper</span></h1>
+              <h1 class="admin-header-text"><span>SH Admin</span></h1>
             </a>
             <div class="admin-header-nav">
               <nav class="admin-navigation-links-admin-navigation-links">
                 <a
-                  href="admin_questions.html"
+                  href="{{ url_for('admin.questions') }}"
                   class="admin-navigation-links-navlink"
                 >
                   <span>Вопросы</span>
                 </a>
                 <a
-                  href="admin_assign_role.html"
+                  href="{{ url_for('admin.assign_role') }}"
                   class="admin-navigation-links-navlink1"
                 >
                   <span>Назначить роль</span>
                 </a>
                 <a
-                  href="admin_list_of_administrators.html"
+                  href="{{ url_for('admin.list_of_admins') }}"
                   class="admin-navigation-links-navlink2"
                 >
                   <span>Список модераторов</span>
                 </a>
                 <a
-                  href="admin_verifications.html"
+                  href="{{ url_for('admin.verifications') }}"
                   class="admin-navigation-links-navlink3"
                 >
                   <span>Заявки на верификацию</span>
@@ -128,13 +128,15 @@
         {% endwith %}
 
         <div class="admin-questions-questions">
-          <div class="admin-questions-search">
+          <form method="post" class="admin-questions-search" action="{{ url_for('admin.search_questions') }}">
             <input
+              name="search"
+              required
               type="text"
               placeholder="Поиск"
               class="admin-questions-textinput input"
             />
-            <button class="admin-questions-button button">
+            <button type="submit" class="admin-questions-button button">
               <svg
                 viewBox="0 0 950.8571428571428 1024"
                 class="admin-questions-icon"
@@ -144,10 +146,10 @@
                 ></path>
               </svg>
             </button>
-            <button class="admin-questions-button1 button">Фильтры</button>
-          </div>
-          <a href="admin_question.html">
-            <div class="question-card-admin-question-card-admin">
+          </form>
+
+          {% for question in questions %}
+          <a href="{{ url_for('admin.question', question_id = question[0].id) }}" class="question-card-admin-question-card-admin" style="padding-bottom: 10px">
               <div class="question-card-admin-raiting">
                 <button class="question-card-admin-button button">
                   <svg viewBox="0 0 1024 1024" class="question-card-admin-icon">
@@ -166,158 +168,44 @@
                     ></path>
                   </svg>
                 </button>
-                <span><span>+100500</span></span>
+                <span><span>{{ question[0].rate }}</span></span>
               </div>
               <div class="question-card-admin-container">
                 <div class="question-card-admin-container1">
                   <span class="question-card-admin-text1">
-                    <span>Мат. анализ</span>
+                    <span>{{ question[0].subject_tag }}</span>
                   </span>
                   <span class="question-card-admin-text2">
-                    <span>23.04.2022</span>
+                    {% set strdate = question.date_time|string %}
+                    {% set date = strdate.split(' ') %}
+                    <span>{{ date[0] }}</span>
                   </span>
-                  <button class="question-card-admin-button2 button">
-                    <span>Удалить</span>
-                  </button>
+
                 </div>
                 <h1 class="question-card-admin-text3">
-                  <span>Помогите взять интеграл, пж</span>
+                  <span>{{ question[0].header }}</span>
                 </h1>
               </div>
-            </div>
           </a>
-          <a href="admin_question.html">
-            <div class="question-card-admin-question-card-admin">
-              <div class="question-card-admin-raiting">
-                <button class="question-card-admin-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-admin-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-admin-button1 button">
-                  <svg
-                    viewBox="0 0 1024 1024"
-                    class="question-card-admin-icon2"
-                  >
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-admin-container">
-                <div class="question-card-admin-container1">
-                  <span class="question-card-admin-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-admin-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                  <button class="question-card-admin-button2 button">
-                    <span>Удалить</span>
-                  </button>
-                </div>
-                <h1 class="question-card-admin-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
-          <a href="admin_question.html">
-            <div class="question-card-admin-question-card-admin">
-              <div class="question-card-admin-raiting">
-                <button class="question-card-admin-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-admin-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-admin-button1 button">
-                  <svg
-                    viewBox="0 0 1024 1024"
-                    class="question-card-admin-icon2"
-                  >
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-admin-container">
-                <div class="question-card-admin-container1">
-                  <span class="question-card-admin-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-admin-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                  <button class="question-card-admin-button2 button">
-                    <span>Удалить</span>
-                  </button>
-                </div>
-                <h1 class="question-card-admin-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
-          <a href="admin_question.html">
-            <div class="question-card-admin-question-card-admin">
-              <div class="question-card-admin-raiting">
-                <button class="question-card-admin-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-admin-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-admin-button1 button">
-                  <svg
-                    viewBox="0 0 1024 1024"
-                    class="question-card-admin-icon2"
-                  >
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-admin-container">
-                <div class="question-card-admin-container1">
-                  <span class="question-card-admin-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-admin-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                  <button class="question-card-admin-button2 button">
-                    <span>Удалить</span>
-                  </button>
-                </div>
-                <h1 class="question-card-admin-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
+          {% endfor %}
+
           <div class="admin-questions-container1">
+            {% set next_page = page + 1 %}
+            {% set prev_page = page - 1 %}
+            {% if has_prev %}
             <div class="admin-questions-container2">
-              <button class="admin-questions-button2 button">
+              <a class="admin-questions-button2 button" href="{{ url_for('admin.questions_pagination', page=prev_page) }}">
                 <svg viewBox="0 0 1024 1024" class="admin-questions-icon2">
                   <path
                     d="M658 708l-60 60-256-256 256-256 60 60-196 196z"
                   ></path>
                 </svg>
                 <span class="admin-questions-text">Предыдущая страница</span>
-              </button>
+              </a>
             </div>
-            <button class="admin-questions-button3 button">
+            {% endif %}
+            {% if has_next %}
+            <a class="admin-questions-button3 button" href="{{ url_for('admin.questions_pagination', page=next_page) }}">
               <span class="admin-questions-text1">
                 <span>Следующая страница</span>
               </span>
@@ -326,15 +214,15 @@
                   d="M366 708l196-196-196-196 60-60 256 256-256 256z"
                 ></path>
               </svg>
-            </button>
+            </a>
+            {% endif %}
           </div>
         </div>
         <footer class="footer-footer footer-root-class-name9">
           <h1 class="footer-text"><span>SH</span></h1>
           <span class="footer-text1">
             <span>
-              Контакты: admin@mail.ru | +7-(999)-888-77-66 | admin panel |
-              refresh leaderboard
+              Контакты: admin@mail.ru | +7-(999)-888-77-66
             </span>
           </span>
           <div class="footer-icon-group">

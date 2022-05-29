@@ -76,30 +76,30 @@
         >
           <div class="admin-header-container">
             <a href="{{ url_for('index') }}" class="admin-header-navlink">
-              <h1 class="admin-header-text"><span>Student Helper</span></h1>
+              <h1 class="admin-header-text"><span>SH Admin</span></h1>
             </a>
             <div class="admin-header-nav">
               <nav class="admin-navigation-links-admin-navigation-links">
                 <a
-                  href="admin_questions.html"
+                  href="{{ url_for('admin.questions') }}"
                   class="admin-navigation-links-navlink"
                 >
                   <span>Вопросы</span>
                 </a>
                 <a
-                  href="admin_assign_role.html"
+                  href="{{ url_for('admin.assign_role') }}"
                   class="admin-navigation-links-navlink1"
                 >
                   <span>Назначить роль</span>
                 </a>
                 <a
-                  href="admin_list_of_administrators.html"
+                  href="{{ url_for('admin.list_of_admins') }}"
                   class="admin-navigation-links-navlink2"
                 >
                   <span>Список модераторов</span>
                 </a>
                 <a
-                  href="admin_verifications.html"
+                  href="{{ url_for('admin.verifications') }}"
                   class="admin-navigation-links-navlink3"
                 >
                   <span>Заявки на верификацию</span>
@@ -124,15 +124,13 @@
             Данные пользователя на верификацию
           </label>
           <span class="admin-verivication-text01">
-            <span>Иванов Иван Иванович</span>
+            <span>{{ user.first_name }} {{ user.last_name }}</span>
             <br />
             <span></span>
             <br />
-            <span>Факультет Компьютерных Наук</span>
-            <br />
             <span></span>
             <br />
-            <span>Направление: Программная инженерия</span>
+            <span>Специальность: {{ user.speciality }}</span>
             <br />
             <span></span>
             <br />
@@ -146,25 +144,25 @@
                 ></path>
               </svg>
               <a
-                href="https://example.com"
+                href="{{ url_for('admin.verification_download', verif_id=verif.id) }}"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <span>studak.jpg</span>
+                {% set filename = verif.attachment_path.split('/')[-1] %}
+                <span>{{ filename }}</span>
               </a>
             </div>
           </div>
-          <button class="admin-verivication-button button">
+          <a class="admin-verivication-button button" href="{{ url_for('admin.accept_verification', verif_id=verif.id) }}">
             Верифицировать
-          </button>
-          <button class="admin-verivication-button1 button">Отклонить</button>
+          </a>
+          <a class="admin-verivication-button1 button" href="{{ url_for('admin.delete_verification', verif_id=verif.id) }}">Отклонить</a>
         </div>
         <footer class="footer-footer footer-root-class-name15">
           <h1 class="footer-text"><span>SH</span></h1>
           <span class="footer-text1">
             <span>
-              Контакты: admin@mail.ru | +7-(999)-888-77-66 | admin panel |
-              refresh leaderboard
+              Контакты: admin@mail.ru | +7-(999)-888-77-66
             </span>
           </span>
           <div class="footer-icon-group">

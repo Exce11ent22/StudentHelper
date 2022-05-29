@@ -82,30 +82,30 @@
         >
           <div class="admin-header-container">
             <a href="{{ url_for('index') }}" class="admin-header-navlink">
-              <h1 class="admin-header-text"><span>Student Helper</span></h1>
+              <h1 class="admin-header-text"><span>SH Admin</span></h1>
             </a>
             <div class="admin-header-nav">
               <nav class="admin-navigation-links-admin-navigation-links">
                 <a
-                  href="admin_questions.html"
+                  href="{{ url_for('admin.questions') }}"
                   class="admin-navigation-links-navlink"
                 >
                   <span>Вопросы</span>
                 </a>
                 <a
-                  href="admin_assign_role.html"
+                  href="{{ url_for('admin.assign_role') }}"
                   class="admin-navigation-links-navlink1"
                 >
                   <span>Назначить роль</span>
                 </a>
                 <a
-                  href="admin_list_of_administrators.html"
+                  href="{{ url_for('admin.list_of_admins') }}"
                   class="admin-navigation-links-navlink2"
                 >
                   <span>Список модераторов</span>
                 </a>
                 <a
-                  href="admin_verifications.html"
+                  href="{{ url_for('admin.verifications') }}"
                   class="admin-navigation-links-navlink3"
                 >
                   <span>Заявки на верификацию</span>
@@ -126,128 +126,59 @@
         {% endwith %}
 
         <div class="admin-list-of-administrators-list-of-administrators">
+
+          {% if admins|length != 0 %}
+          <h1>Администраторы</h1>
+          {% for admin in admins %}
           <div class="admin-card-admin-card">
             <div class="admin-card-container">
-              <h1 class="admin-card-text"><span>Иван Иванов</span></h1>
+              <h1 class="admin-card-text"><span>{{ admin.first_name }} {{ admin.last_name }}</span></h1>
               <span class="admin-card-text1"><span>Администратор</span></span>
             </div>
             <div class="admin-card-container1">
               <a
-                href="admin_change_role.html"
+                href="{{ url_for('admin.change_role', user_id=admin.id) }}"
                 class="admin-card-navlink button"
               >
                 <span>Изменить</span>
               </a>
-              <button class="admin-card-button button">
+              <a class="admin-card-button button" href="{{ url_for('admin.delete_role', user_id=admin.id) }}">
                 <span>Удалить</span>
-              </button>
+              </a>
             </div>
           </div>
+          {% endfor %}
+          {% endif %}
+
+          {% if moders|length != 0 %}
+          <h1>Модераторы</h1>
+          {% for moder in moders %}
           <div class="admin-card-admin-card">
             <div class="admin-card-container">
-              <h1 class="admin-card-text"><span>Иван Иванов</span></h1>
-              <span class="admin-card-text1"><span>Администратор</span></span>
+              <h1 class="admin-card-text"><span>{{ moder.first_name }} {{ moder.last_name }}</span></h1>
+              <span class="admin-card-text1"><span>Модератор</span></span>
             </div>
             <div class="admin-card-container1">
               <a
-                href="admin_change_role.html"
+                href="{{ url_for('admin.change_role', user_id=moder.id) }}"
                 class="admin-card-navlink button"
               >
                 <span>Изменить</span>
               </a>
-              <button class="admin-card-button button">
+              <a class="admin-card-button button" href="{{ url_for('admin.delete_role', user_id=moder.id) }}">
                 <span>Удалить</span>
-              </button>
-            </div>
-          </div>
-          <div class="admin-card-admin-card">
-            <div class="admin-card-container">
-              <h1 class="admin-card-text"><span>Иван Иванов</span></h1>
-              <span class="admin-card-text1"><span>Администратор</span></span>
-            </div>
-            <div class="admin-card-container1">
-              <a
-                href="admin_change_role.html"
-                class="admin-card-navlink button"
-              >
-                <span>Изменить</span>
               </a>
-              <button class="admin-card-button button">
-                <span>Удалить</span>
-              </button>
             </div>
           </div>
-          <div class="admin-card-admin-card">
-            <div class="admin-card-container">
-              <h1 class="admin-card-text"><span>Иван Иванов</span></h1>
-              <span class="admin-card-text1"><span>Администратор</span></span>
-            </div>
-            <div class="admin-card-container1">
-              <a
-                href="admin_change_role.html"
-                class="admin-card-navlink button"
-              >
-                <span>Изменить</span>
-              </a>
-              <button class="admin-card-button button">
-                <span>Удалить</span>
-              </button>
-            </div>
-          </div>
-          <div class="admin-card-admin-card">
-            <div class="admin-card-container">
-              <h1 class="admin-card-text"><span>Иван Иванов</span></h1>
-              <span class="admin-card-text1"><span>Администратор</span></span>
-            </div>
-            <div class="admin-card-container1">
-              <a
-                href="admin_change_role.html"
-                class="admin-card-navlink button"
-              >
-                <span>Изменить</span>
-              </a>
-              <button class="admin-card-button button">
-                <span>Удалить</span>
-              </button>
-            </div>
-          </div>
-          <div class="admin-list-of-administrators-container1">
-            <div class="admin-list-of-administrators-container2">
-              <button class="admin-list-of-administrators-button button">
-                <svg
-                  viewBox="0 0 1024 1024"
-                  class="admin-list-of-administrators-icon"
-                >
-                  <path
-                    d="M658 708l-60 60-256-256 256-256 60 60-196 196z"
-                  ></path>
-                </svg>
-                <span class="admin-list-of-administrators-text">
-                  Предыдущая страница
-                </span>
-              </button>
-            </div>
-            <button class="admin-list-of-administrators-button1 button">
-              <span class="admin-list-of-administrators-text1">
-                <span>Следующая страница</span>
-              </span>
-              <svg
-                viewBox="0 0 1024 1024"
-                class="admin-list-of-administrators-icon2"
-              >
-                <path
-                  d="M366 708l196-196-196-196 60-60 256 256-256 256z"
-                ></path>
-              </svg>
-            </button>
-          </div>
+          {% endfor %}
+          {% endif %}
+
         </div>
         <footer class="footer-footer footer-root-class-name11">
           <h1 class="footer-text"><span>SH</span></h1>
           <span class="footer-text1">
             <span>
-              Контакты: admin@mail.ru | +7-(999)-888-77-66 | admin panel |
-              refresh leaderboard
+              Контакты: admin@mail.ru | +7-(999)-888-77-66
             </span>
           </span>
           <div class="footer-icon-group">

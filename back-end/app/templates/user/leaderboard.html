@@ -106,85 +106,39 @@
         {% endwith %}
 
         <div class="liderboard-liderboard">
-          <h1 class="liderboard-text"><span>ТОП 10 ЭТОГО МЕСЯЦА</span></h1>
+          <h1 class="liderboard-text"><span>ТОП {{ leaderboard|length }} ЭТОГО МЕСЯЦА</span></h1>
+
+          {% for card in leaderboard %}
           <div class="liderboard-card-liderboard-card">
             <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
+              <h1 class="liderboard-card-text"><span>{{ card[1].first_name }} {{ card[1].last_name }}</span></h1>
               <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
+                <span>{{ card[1].university }}</span>
+                </br>
+                <span>
+                    {% if card[1].verified %}
+                        Верифицирован
+                    {% else %}
+                        Не верифицирован
+                    {% endif %}
+                </span>
+                </br>
               </span>
             </div>
             <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
+              <h1 class="liderboard-card-text2"><span>Рейтинг: {{ card[1].rating }}</span></h1>
+              <h1 class="liderboard-card-text3"><span>Прирост: {{ card[0].rating_increase }}</span></h1>
+              <h1 class="liderboard-card-text4"><span>Заработал:
+                  {% if card[1].verified %}
+                        {{ card[0].points }}
+                    {% else %}
+                        0
+                    {% endif %}
+                  </span></h1>
             </div>
           </div>
-          <div class="liderboard-card-liderboard-card">
-            <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
-              <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
-              </span>
-            </div>
-            <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
-            </div>
-          </div>
-          <div class="liderboard-card-liderboard-card">
-            <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
-              <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
-              </span>
-            </div>
-            <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
-            </div>
-          </div>
-          <div class="liderboard-card-liderboard-card">
-            <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
-              <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
-              </span>
-            </div>
-            <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
-            </div>
-          </div>
-          <div class="liderboard-card-liderboard-card">
-            <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
-              <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
-              </span>
-            </div>
-            <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
-            </div>
-          </div>
-          <div class="liderboard-card-liderboard-card">
-            <div class="liderboard-card-container">
-              <h1 class="liderboard-card-text"><span>Иван Иванов</span></h1>
-              <span class="liderboard-card-text1">
-                <span>Воронежский Государственный Университет</span>
-              </span>
-            </div>
-            <div class="liderboard-card-container1">
-              <h1 class="liderboard-card-text2"><span>Рейтинг: 357</span></h1>
-              <h1 class="liderboard-card-text3"><span>Прирост: +57</span></h1>
-              <h1 class="liderboard-card-text4"><span>Заработал: 556</span></h1>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
         <footer class="footer-footer footer-root-class-name5">
           <h1 class="footer-text"><span>SH</span></h1>

@@ -2,8 +2,8 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, url_for, flash, request
 from flask_login import login_user, logout_user
-from werkzeug.utils import redirect
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import redirect
 
 from app import login_manager, db
 from app.models import User

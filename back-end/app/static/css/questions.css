@@ -154,6 +154,7 @@
 }
 
 .question-card-blog-post-card {
+  padding-bottom: var(--dl-space-space-unit);
   width: 90%;
   display: flex;
   max-width: 800px;

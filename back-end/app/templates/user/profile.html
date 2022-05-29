@@ -166,6 +166,10 @@
               </a>
               {% endif %}
 
+              <a href="{{ url_for('user.my_questions') }}" class="profile-navlink1 button">
+                Мои вопросы
+              </a>
+
             </div>
             {% endif %}
 
@@ -197,8 +201,7 @@
               Контакты: admin@mail.ru | +7-(999)-888-77-66
 
               {% if (user.is_moderator() or user.is_administrator()) and current_id == user.id %}
-              | admin panel |
-              refresh leaderboard
+              <a href="{{ url_for('admin.questions') }}">| admin panel</a>
               {% endif %}
             </span>
           </span>

@@ -131,25 +131,33 @@
         <div class="question-container1">
           <div class="question-container2">
             <div class="question-raiting">
-              <button class="question-button button">
+              <a class="question-button button" href="{{ url_for('user.question_upvote', question_id=question.id) }}">
                 <svg viewBox="0 0 1024 1024" class="question-icon">
                   <path
                     d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
                   ></path>
                 </svg>
-              </button>
-              <button class="question-button1 button">
+              </a>
+              <a class="question-button1 button" href="{{ url_for('user.question_downvote', question_id=question.id) }}">
                 <svg viewBox="0 0 1024 1024" class="question-icon2">
                   <path
                     d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
                   ></path>
                 </svg>
-              </button>
-              <span>{{ question.rate }}</span>
+              </a>
+              <span>{{ question.rate }}
+                  {% if question_vote != None %}
+                          {% if question_vote %}
+                              <span style="color: green">(+)</span>
+                          {% else %}
+                              <span style="color: red">(-)</span>
+                          {% endif %}
+                      {% endif %}
+              </span>
             </div>
             <div class="question-profile-info">
               <span>
-                <span>{{ user.first_name }} {{ user.last_name }}</span>
+                <a href="{{ url_for('user.profile_by_id', user_id=user.id) }}">Автор {{ user.first_name }} {{ user.last_name }}</a>
                 <br />
                 <span></span>
                 <br />
@@ -158,13 +166,22 @@
                 <span></span>
                 <br />
                 <span>Рейтинг: {{ user.rating }}</span>
+                {% if user.verified %}
+                <br />
+                <span>Верифицирован</span>
+                {% else %}
+                <br />
+                <span>Не верифицирован</span>
+                {% endif %}
               </span>
             </div>
           </div>
           <div class="question-question">
             <div class="question-container3">
               <span class="question-text11">{{ question.subject_tag }}</span>
-              <span class="question-text12">{{ question.date_time }}</span>
+              {% set strdate = question.date_time|string %}
+              {% set date = strdate.split(' ') %}
+              <span class="question-text12">{{ date[0] }}</span>
             </div>
             <h1>{{ question.header }}</h1>
             <span class="question-text14">
@@ -185,69 +202,166 @@
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <span>Скачать вложение</span>
+                    {% set filename_question = question.attachment_path.split('/')[-1] %}
+                  <span>{{ filename_question }}</span>
                 </a>
               </div>
             </div>
             {% endif %}
             {% if not is_anonymous %}
-            <div class="question-leave-comment">
+            <form class="question-leave-comment" method="post" enctype="multipart/form-data">
               <textarea
+                name="description"
+                required
                 placeholder="Пиши свой ответ здесь!"
                 class="question-textarea textarea"
               ></textarea>
               <label class="formLable">Прикрепить файл</label>
               <input
+                name="file"
                 type="file"
                 placeholder="placeholder"
                 class="question-textinput input"
               />
-              <button class="question-button2 button">Оставить ответ</button>
-            </div>
+              <button class="question-button2 button" type="submit">Оставить ответ</button>
+            </form>
+            {% else %}
+            <span class="question-text14">
+              <span style="color: #4CC366">
+                Чтобы оставлять комментарии, вам необходимо <a href="{{ url_for('auth.login') }}" class="question-button2 button">Войти</a>
+              </span>
+            </span>
             {% endif %}
           </div>
         </div>
         <div class="question-answers">
+
+          {% if best %}
+              <h1>Лучший ответ</h1>
+              <div class="answer-card-answer-card">
+            <div class="answer-card-user">
+              <a href="{{ url_for('user.profile_by_id', user_id=best[1].id) }}" class="answer-card-navlink">
+                <span>{{ best[1].first_name }} {{ best[1].last_name }}</span>
+              </a>
+              <span class="answer-card-text01">
+                {% set strdate_ans = best[0].date_time|string %}
+                {% set date_ans = strdate_ans.split(' ') %}
+                <span>{{ date_ans[0] }}</span>
+                <span></span>
+              </span>
+              <span>
+                  {% if best[1].verified %}
+                  <span class="answer-card-text06">Верифицирован</span>
+                  {% else %}
+                  <span class="answer-card-text06">Не верифицирован</span>
+                  {% endif %}
+              </span>
+            </div>
+            <div class="answer-card-answer">
+              <div class="answer-card-raiting">
+                <a href="{{ url_for('user.answer_upvote', answer_id=best[0].id) }}" class="answer-card-button button">
+                  <svg viewBox="0 0 1024 1024" class="answer-card-icon">
+                    <path
+                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
+                    ></path>
+                  </svg>
+                </a>
+                <a href="{{ url_for('user.answer_downvote', answer_id=best[0].id) }}" class="answer-card-button1 button">
+                  <svg viewBox="0 0 1024 1024" class="answer-card-icon2">
+                    <path
+                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
+                    ></path>
+                  </svg>
+                </a>
+                <span><span>{{ best[0].rate }}</span></span>
+              </div>
+              <div class="answer-card-container">
+                <span>
+                  <span>
+                    {{ best[0].description }}
+                  </span>
+                </span>
+                {% if best[0].attachment_path %}
+                <div class="answer-card-files">
+                  <div class="answer-card-container1">
+                    <svg viewBox="0 0 1024 1024" class="answer-card-icon4">
+                      <path
+                        d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"
+                      ></path>
+                    </svg>
+                    <a
+                      href="{{ url_for('user.answer_attachment_download', answer_id=best[0].id) }}"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      class="answer-card-link"
+                    >
+                      {% set filename_ans = best[0].attachment_path.split('/')[-1] %}
+                      <span>{{ filename_ans }}</span>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if answers|length != 0 %}
           <h1>Ответы</h1>
+          {% endif %}
+          {% for answer in answers %}
           <div class="answer-card-answer-card">
             <div class="answer-card-user">
-              <a href="profile.html" class="answer-card-navlink">
-                <span>Петр Петров</span>
+              <a href="{{ url_for('user.profile_by_id', user_id=answer[1].id) }}" class="answer-card-navlink">
+                <span>{{ answer[1].first_name }} {{ answer[1].last_name }}</span>
               </a>
               <span class="answer-card-text01">
-                <span>20:24</span>
-                <span>24.04.2022</span>
+                {% set strdate_ans = answer[0].date_time|string %}
+                {% set date_ans = strdate_ans.split(' ') %}
+                <span>{{ date_ans[0] }}</span>
                 <span></span>
               </span>
-              <span><span class="answer-card-text06">Верифицирован</span></span>
+              <span>
+                  {% if answer[1].verified %}
+                  <span class="answer-card-text06">Верифицирован</span>
+                  {% else %}
+                  <span class="answer-card-text06">Не верифицирован</span>
+                  {% endif %}
+              </span>
             </div>
             <div class="answer-card-answer">
               <div class="answer-card-raiting">
-                <button class="answer-card-button button">
+                <a href="{{ url_for('user.answer_upvote', answer_id=answer[0].id) }}" class="answer-card-button button">
                   <svg viewBox="0 0 1024 1024" class="answer-card-icon">
                     <path
                       d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
                     ></path>
                   </svg>
-                </button>
-                <button class="answer-card-button1 button">
+                </a>
+                <a href="{{ url_for('user.answer_downvote', answer_id=answer[0].id) }}" class="answer-card-button1 button">
                   <svg viewBox="0 0 1024 1024" class="answer-card-icon2">
                     <path
                       d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
                     ></path>
                   </svg>
-                </button>
-                <span><span>+100500</span></span>
+                </a>
+                <span><span>{{ answer[0].rate }}
+                    {% if answer[2] != None %}
+                          {% if answer[2].is_vote_up %}
+                              <span style="color: green">(+)</span>
+                          {% else %}
+                              <span style="color: red">(-)</span>
+                          {% endif %}
+                      {% endif %}
+                </span></span>
               </div>
               <div class="answer-card-container">
                 <span>
                   <span>
-                    Чел ты... Это же изи! Учи мат. часть! Держи решение в
-                    прикрепленном файле! Какой-то текст. Какой-то текст.
-                    Какой-то текст. Какой-то текст. Какой-то текст. Какой-то
-                    текст. Какой-то текст. Какой-то текст.
+                    {{ answer[0].description }}
                   </span>
                 </span>
+                {% if answer[0].attachment_path %}
                 <div class="answer-card-files">
                   <div class="answer-card-container1">
                     <svg viewBox="0 0 1024 1024" class="answer-card-icon4">
@@ -256,195 +370,21 @@
                       ></path>
                     </svg>
                     <a
-                      href="https://example.com"
+                      href="{{ url_for('user.answer_attachment_download', answer_id=answer[0].id) }}"
                       target="_blank"
                       rel="noreferrer noopener"
                       class="answer-card-link"
                     >
-                      <span>file.jpg</span>
+                      {% set filename_ans = answer[0].attachment_path.split('/')[-1] %}
+                      <span>{{ filename_ans }}</span>
                     </a>
                   </div>
                 </div>
+                {% endif %}
               </div>
             </div>
           </div>
-          <div class="answer-card-answer-card">
-            <div class="answer-card-user">
-              <a href="profile.html" class="answer-card-navlink">
-                <span>Петр Петров</span>
-              </a>
-              <span class="answer-card-text01">
-                <span>20:24</span>
-                <span>24.04.2022</span>
-                <span></span>
-              </span>
-              <span><span class="answer-card-text06">Верифицирован</span></span>
-            </div>
-            <div class="answer-card-answer">
-              <div class="answer-card-raiting">
-                <button class="answer-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="answer-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="answer-card-container">
-                <span>
-                  <span>
-                    Чел ты... Это же изи! Учи мат. часть! Держи решение в
-                    прикрепленном файле! Какой-то текст. Какой-то текст.
-                    Какой-то текст. Какой-то текст. Какой-то текст. Какой-то
-                    текст. Какой-то текст. Какой-то текст.
-                  </span>
-                </span>
-                <div class="answer-card-files">
-                  <div class="answer-card-container1">
-                    <svg viewBox="0 0 1024 1024" class="answer-card-icon4">
-                      <path
-                        d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"
-                      ></path>
-                    </svg>
-                    <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="answer-card-link"
-                    >
-                      <span>file.jpg</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="answer-card-answer-card">
-            <div class="answer-card-user">
-              <a href="profile.html" class="answer-card-navlink">
-                <span>Петр Петров</span>
-              </a>
-              <span class="answer-card-text01">
-                <span>20:24</span>
-                <span>24.04.2022</span>
-                <span></span>
-              </span>
-              <span><span class="answer-card-text06">Верифицирован</span></span>
-            </div>
-            <div class="answer-card-answer">
-              <div class="answer-card-raiting">
-                <button class="answer-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="answer-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="answer-card-container">
-                <span>
-                  <span>
-                    Чел ты... Это же изи! Учи мат. часть! Держи решение в
-                    прикрепленном файле! Какой-то текст. Какой-то текст.
-                    Какой-то текст. Какой-то текст. Какой-то текст. Какой-то
-                    текст. Какой-то текст. Какой-то текст.
-                  </span>
-                </span>
-                <div class="answer-card-files">
-                  <div class="answer-card-container1">
-                    <svg viewBox="0 0 1024 1024" class="answer-card-icon4">
-                      <path
-                        d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"
-                      ></path>
-                    </svg>
-                    <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="answer-card-link"
-                    >
-                      <span>file.jpg</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="answer-card-answer-card">
-            <div class="answer-card-user">
-              <a href="profile.html" class="answer-card-navlink">
-                <span>Петр Петров</span>
-              </a>
-              <span class="answer-card-text01">
-                <span>20:24</span>
-                <span>24.04.2022</span>
-                <span></span>
-              </span>
-              <span><span class="answer-card-text06">Верифицирован</span></span>
-            </div>
-            <div class="answer-card-answer">
-              <div class="answer-card-raiting">
-                <button class="answer-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="answer-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="answer-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="answer-card-container">
-                <span>
-                  <span>
-                    Чел ты... Это же изи! Учи мат. часть! Держи решение в
-                    прикрепленном файле! Какой-то текст. Какой-то текст.
-                    Какой-то текст. Какой-то текст. Какой-то текст. Какой-то
-                    текст. Какой-то текст. Какой-то текст.
-                  </span>
-                </span>
-                <div class="answer-card-files">
-                  <div class="answer-card-container1">
-                    <svg viewBox="0 0 1024 1024" class="answer-card-icon4">
-                      <path
-                        d="M554 384h236l-236-234v234zM256 86h342l256 256v512q0 34-26 59t-60 25h-512q-34 0-60-25t-26-59l2-684q0-34 25-59t59-25z"
-                      ></path>
-                    </svg>
-                    <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="answer-card-link"
-                    >
-                      <span>file.jpg</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
         <footer class="footer-footer footer-root-class-name6">
           <h1 class="footer-text"><span>SH</span></h1>

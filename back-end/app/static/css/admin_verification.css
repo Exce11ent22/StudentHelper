@@ -105,7 +105,7 @@
 .admin-header-button {
   color: var(--dl-color-main-theme-button);
   transition: 0.3s;
-  border-width: 0px;
+  border-width: 1px;
   background-color: var(--dl-color-main-theme-text);
 }
 .admin-header-button:hover {
@@ -262,7 +262,7 @@
   color: var(--dl-color-gray-white);
   transform: scale(1.05);
   box-shadow: 5px 5px 10px 0px #85d899;
-  border-width: 0px;
+  border-width: 1px;
   background-color: var(--dl-color-success-700);
 }
 .admin-verivication-button1 {
@@ -274,6 +274,6 @@
   color: var(--dl-color-gray-white);
   transform: scale(1.05);
   box-shadow: 5px 5px 10px 0px #ffe59e;
-  border-width: 0px;
+  border-width: 1px;
   background-color: var(--dl-color-danger-alt);
 }

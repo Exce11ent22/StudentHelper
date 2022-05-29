@@ -1,6 +1,8 @@
+from flasgger import Swagger, swag_from
 from flask import Flask, render_template, url_for, redirect, flash, request
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
+from flask_sqlalchemy import SQLAlchemy
+from safrs import SAFRSAPI
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -10,6 +12,7 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+api = SAFRSAPI(app, prefix='/api/v1/swagger')
 
 
 @login_manager.unauthorized_handler
@@ -41,8 +44,12 @@ def index():
 
 from app.authorisation.controllers import auth
 from app.user.controllers import user
+from app.admin.controllers import admin
 
 app.register_blueprint(auth)
 app.register_blueprint(user)
+app.register_blueprint(admin)
+
+
 
 db.create_all()

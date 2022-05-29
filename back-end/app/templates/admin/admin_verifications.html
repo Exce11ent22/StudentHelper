@@ -97,30 +97,30 @@
         >
           <div class="admin-header-container">
             <a href="{{ url_for('index') }}" class="admin-header-navlink">
-              <h1 class="admin-header-text"><span>Student Helper</span></h1>
+              <h1 class="admin-header-text"><span>SH Admin</span></h1>
             </a>
             <div class="admin-header-nav">
               <nav class="admin-navigation-links-admin-navigation-links">
                 <a
-                  href="admin_questions.html"
+                  href="{{ url_for('admin.questions') }}"
                   class="admin-navigation-links-navlink"
                 >
                   <span>Вопросы</span>
                 </a>
                 <a
-                  href="admin_assign_role.html"
+                  href="{{ url_for('admin.assign_role') }}"
                   class="admin-navigation-links-navlink1"
                 >
                   <span>Назначить роль</span>
                 </a>
                 <a
-                  href="admin_list_of_administrators.html"
+                  href="{{ url_for('admin.list_of_admins') }}"
                   class="admin-navigation-links-navlink2"
                 >
                   <span>Список модераторов</span>
                 </a>
                 <a
-                  href="admin_verifications.html"
+                  href="{{ url_for('admin.verifications') }}"
                   class="admin-navigation-links-navlink3"
                 >
                   <span>Заявки на верификацию</span>
@@ -140,18 +140,20 @@
         {% endif %}
         {% endwith %}
 
+        {% if verifs|length != 0 %}
+        {% for verif in verifs %}
         <div class="admin-verifications-verifications-list">
           <div class="verification-card-verification-card">
             <div class="verification-card-container">
-              <h1 class="verification-card-text"><span>Иван Иванов</span></h1>
+              <h1 class="verification-card-text"><span>{{ verif[1].first_name }} {{ verif[1].last_name }}</span></h1>
               <span class="verification-card-text1">
-                <span>ID Заявки: 123</span>
+                <span>ID Заявки: {{ verif[0].id }}</span>
               </span>
             </div>
             <div class="verification-card-container1">
-              <h1 class="verification-card-text2"><span>23.04.2022</span></h1>
+              <h1 class="verification-card-text2"><span>Рейтинг: {{ verif[1].rating }}</span></h1>
               <a
-                href="admin_verivication.html"
+                href="{{ url_for('admin.verification', verif_id=verif[0].id) }}"
                 class="verification-card-navlink button"
               >
                 <span class="verification-card-text3">
@@ -160,113 +162,19 @@
               </a>
             </div>
           </div>
-          <div class="verification-card-verification-card">
-            <div class="verification-card-container">
-              <h1 class="verification-card-text"><span>Иван Иванов</span></h1>
-              <span class="verification-card-text1">
-                <span>ID Заявки: 123</span>
-              </span>
-            </div>
-            <div class="verification-card-container1">
-              <h1 class="verification-card-text2"><span>23.04.2022</span></h1>
-              <a
-                href="admin_verivication.html"
-                class="verification-card-navlink button"
-              >
-                <span class="verification-card-text3">
-                  <span>Рассмотреть заявку</span>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="verification-card-verification-card">
-            <div class="verification-card-container">
-              <h1 class="verification-card-text"><span>Иван Иванов</span></h1>
-              <span class="verification-card-text1">
-                <span>ID Заявки: 123</span>
-              </span>
-            </div>
-            <div class="verification-card-container1">
-              <h1 class="verification-card-text2"><span>23.04.2022</span></h1>
-              <a
-                href="admin_verivication.html"
-                class="verification-card-navlink button"
-              >
-                <span class="verification-card-text3">
-                  <span>Рассмотреть заявку</span>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="verification-card-verification-card">
-            <div class="verification-card-container">
-              <h1 class="verification-card-text"><span>Иван Иванов</span></h1>
-              <span class="verification-card-text1">
-                <span>ID Заявки: 123</span>
-              </span>
-            </div>
-            <div class="verification-card-container1">
-              <h1 class="verification-card-text2"><span>23.04.2022</span></h1>
-              <a
-                href="admin_verivication.html"
-                class="verification-card-navlink button"
-              >
-                <span class="verification-card-text3">
-                  <span>Рассмотреть заявку</span>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="verification-card-verification-card">
-            <div class="verification-card-container">
-              <h1 class="verification-card-text"><span>Иван Иванов</span></h1>
-              <span class="verification-card-text1">
-                <span>ID Заявки: 123</span>
-              </span>
-            </div>
-            <div class="verification-card-container1">
-              <h1 class="verification-card-text2"><span>23.04.2022</span></h1>
-              <a
-                href="admin_verivication.html"
-                class="verification-card-navlink button"
-              >
-                <span class="verification-card-text3">
-                  <span>Рассмотреть заявку</span>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="admin-verifications-container1">
-            <div class="admin-verifications-container2">
-              <button class="admin-verifications-button button">
-                <svg viewBox="0 0 1024 1024" class="admin-verifications-icon">
-                  <path
-                    d="M658 708l-60 60-256-256 256-256 60 60-196 196z"
-                  ></path>
-                </svg>
-                <span class="admin-verifications-text">
-                  Предыдущая страница
-                </span>
-              </button>
-            </div>
-            <button class="admin-verifications-button1 button">
-              <span class="admin-verifications-text1">
-                <span>Следующая страница</span>
-              </span>
-              <svg viewBox="0 0 1024 1024" class="admin-verifications-icon2">
-                <path
-                  d="M366 708l196-196-196-196 60-60 256 256-256 256z"
-                ></path>
-              </svg>
-            </button>
-          </div>
+          {% endfor %}
+          {% else %}
+            <div style="margin: auto">
+                <h1>Заявок нет</h1>
+                </div>
+          {% endif %}
+
         </div>
         <footer class="footer-footer footer-root-class-name12">
           <h1 class="footer-text"><span>SH</span></h1>
           <span class="footer-text1">
             <span>
-              Контакты: admin@mail.ru | +7-(999)-888-77-66 | admin panel |
-              refresh leaderboard
+              Контакты: admin@mail.ru | +7-(999)-888-77-66
             </span>
           </span>
           <div class="footer-icon-group">

@@ -106,24 +106,25 @@
         {% endwith %}
 
         <div class="questions-questions">
-          <div class="questions-search">
+          <form class="questions-search" action="{{ url_for('user.search_questions') }}" method="post">
             <input
+              name="search"
+              required
               type="text"
               placeholder="Поиск"
               class="questions-textinput input"
             />
-            <button class="questions-button button">
+            <button class="questions-button button" type="submit" href="">
               <svg viewBox="0 0 950.8571428571428 1024" class="questions-icon">
                 <path
                   d="M658.286 475.429c0-141.143-114.857-256-256-256s-256 114.857-256 256 114.857 256 256 256 256-114.857 256-256zM950.857 950.857c0 40-33.143 73.143-73.143 73.143-19.429 0-38.286-8-51.429-21.714l-196-195.429c-66.857 46.286-146.857 70.857-228 70.857-222.286 0-402.286-180-402.286-402.286s180-402.286 402.286-402.286 402.286 180 402.286 402.286c0 81.143-24.571 161.143-70.857 228l196 196c13.143 13.143 21.143 32 21.143 51.429z"
                 ></path>
               </svg>
             </button>
-          </div>
-          <a href="question.html">
-            <div
-              class="question-card-blog-post-card question-card-root-class-name1"
-            >
+          </form>
+
+          {% for question in questions %}
+          <a href="{{ url_for('user.question', question_id=question[0].id) }}" class="question-card-blog-post-card question-card-root-class-name1">
               <div class="question-card-raiting">
                 <button class="question-card-button button">
                   <svg viewBox="0 0 1024 1024" class="question-card-icon">
@@ -139,143 +140,51 @@
                     ></path>
                   </svg>
                 </button>
-                <span><span>+100500</span></span>
+                <span><span>{{ question[0].rate }}
+                    {% if question[2] != None %}
+                        {% if question[2] %}
+                            <span style="color: green">(+)</span>
+                        {% else %}
+                            <span style="color: red">(-)</span>
+                        {% endif %}
+                    {% endif %}
+                </span></span>
               </div>
               <div class="question-card-container">
                 <div class="question-card-container1">
                   <span class="question-card-text1">
-                    <span>Мат. анализ</span>
+                    <span>{{ question[0].subject_tag }}</span>
                   </span>
                   <span class="question-card-text2">
-                    <span>23.04.2022</span>
+                    {% set strdate = question.date_time|string %}
+                    {% set date = strdate.split(' ') %}
+                    <span>{{ date[0] }}</span>
                   </span>
                 </div>
                 <h1 class="question-card-text3">
-                  <span>Помогите взять интеграл, пж</span>
+                  <span>{{ question[0].header }}</span>
                 </h1>
               </div>
-            </div>
           </a>
-          <a href="question.html">
-            <div
-              class="question-card-blog-post-card question-card-root-class-name4"
-            >
-              <div class="question-card-raiting">
-                <button class="question-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-container">
-                <div class="question-card-container1">
-                  <span class="question-card-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                </div>
-                <h1 class="question-card-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
-          <a href="question.html">
-            <div
-              class="question-card-blog-post-card question-card-root-class-name5"
-            >
-              <div class="question-card-raiting">
-                <button class="question-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-container">
-                <div class="question-card-container1">
-                  <span class="question-card-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                </div>
-                <h1 class="question-card-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
-          <a href="question.html">
-            <div
-              class="question-card-blog-post-card question-card-root-class-name6"
-            >
-              <div class="question-card-raiting">
-                <button class="question-card-button button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon">
-                    <path
-                      d="M170 512l342-342 342 342-62 60-238-238v520h-84v-520l-240 238z"
-                    ></path>
-                  </svg>
-                </button>
-                <button class="question-card-button1 button">
-                  <svg viewBox="0 0 1024 1024" class="question-card-icon2">
-                    <path
-                      d="M854 512l-342 342-342-342 62-60 238 238v-520h84v520l240-238z"
-                    ></path>
-                  </svg>
-                </button>
-                <span><span>+100500</span></span>
-              </div>
-              <div class="question-card-container">
-                <div class="question-card-container1">
-                  <span class="question-card-text1">
-                    <span>Мат. анализ</span>
-                  </span>
-                  <span class="question-card-text2">
-                    <span>23.04.2022</span>
-                  </span>
-                </div>
-                <h1 class="question-card-text3">
-                  <span>Помогите взять интеграл, пж</span>
-                </h1>
-              </div>
-            </div>
-          </a>
+          {% endfor %}
+
           <div class="questions-container1">
+            {% set next_page = page + 1 %}
+            {% set prev_page = page - 1 %}
+            {% if has_prev %}
             <div class="questions-container2">
-              <button class="questions-button1 button">
+              <a class="questions-button1 button" href="{{ url_for('user.questions_pagination', page=prev_page) }}">
                 <svg viewBox="0 0 1024 1024" class="questions-icon2">
                   <path
                     d="M658 708l-60 60-256-256 256-256 60 60-196 196z"
                   ></path>
                 </svg>
                 <span class="questions-text">Предыдущая страница</span>
-              </button>
+              </a>
             </div>
-            <button class="questions-button2 button">
+            {% endif %}
+            {% if has_next %}
+            <a class="questions-button1 button" href="{{ url_for('user.questions_pagination', page=next_page) }}">
               <span class="questions-text1">
                 <span>Следующая страница</span>
               </span>
@@ -284,7 +193,8 @@
                   d="M366 708l196-196-196-196 60-60 256 256-256 256z"
                 ></path>
               </svg>
-            </button>
+            </a>
+            {% endif %}
           </div>
         </div>
         <footer class="footer-footer footer-root-class-name2">

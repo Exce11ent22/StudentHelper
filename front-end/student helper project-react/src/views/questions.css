@@ -1,0 +1,103 @@
+.questions-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.questions-questions {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.questions-search {
+  width: 80%;
+  display: flex;
+  max-width: 800px;
+  margin-top: var(--dl-space-space-unit);
+  align-items: center;
+  margin-bottom: var(--dl-space-space-twounits);
+  justify-content: space-between;
+}
+.questions-textinput {
+  width: 100%;
+}
+.questions-button {
+  display: flex;
+  margin-left: var(--dl-space-space-halfunit);
+  flex-direction: row;
+}
+.questions-icon {
+  width: 20px;
+  height: 20px;
+}
+.questions-container1 {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.questions-container2 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+}
+.questions-button1 {
+  display: flex;
+  transition: 0.3s;
+  border-color: var(--dl-color-gray-black);
+  border-width: 0px;
+  margin-right: var(--dl-space-space-unit);
+  flex-direction: row;
+  background-color: var(--dl-color-main-theme-text);
+}
+
+.questions-icon2 {
+  width: 24px;
+  height: 24px;
+}
+.questions-text {
+  align-self: center;
+}
+.questions-button2 {
+  display: flex;
+  border-width: 0px;
+  flex-direction: row;
+  background-color: var(--dl-color-main-theme-text);
+}
+.questions-text1 {
+  align-self: center;
+}
+.questions-icon4 {
+  width: 24px;
+  height: 24px;
+}
+@media(max-width: 767px) {
+  .questions-questions {
+    align-items: center;
+  }
+}
+@media(max-width: 479px) {
+  .questions-questions {
+    align-self: center;
+    align-items: center;
+  }
+  .questions-container1 {
+    align-items: center;
+    flex-direction: column;
+  }
+  .questions-button1 {
+    margin-right: 0px;
+    margin-bottom: var(--dl-space-space-unit);
+  }
+}

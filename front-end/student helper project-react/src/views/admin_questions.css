@@ -1,0 +1,105 @@
+.admin-questions-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.admin-questions-questions {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.admin-questions-search {
+  width: 50%;
+  display: flex;
+  max-width: 800px;
+  min-width: 450px;
+  margin-top: var(--dl-space-space-unit);
+  align-items: center;
+  margin-bottom: var(--dl-space-space-twounits);
+  justify-content: space-between;
+}
+.admin-questions-textinput {
+  width: 100%;
+}
+.admin-questions-button {
+  display: flex;
+  margin-left: var(--dl-space-space-halfunit);
+  flex-direction: row;
+}
+.admin-questions-icon {
+  width: 20px;
+  height: 20px;
+}
+.admin-questions-button1 {
+  margin-left: var(--dl-space-space-halfunit);
+}
+.admin-questions-container1 {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.admin-questions-container2 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+}
+.admin-questions-button2 {
+  display: flex;
+  border-color: var(--dl-color-gray-black);
+  border-width: 0px;
+  margin-right: var(--dl-space-space-unit);
+  flex-direction: row;
+  background-color: var(--dl-color-main-theme-text);
+}
+.admin-questions-icon2 {
+  width: 24px;
+  height: 24px;
+}
+.admin-questions-text {
+  align-self: center;
+}
+.admin-questions-button3 {
+  display: flex;
+  border-width: 0px;
+  flex-direction: row;
+  background-color: var(--dl-color-main-theme-text);
+}
+.admin-questions-text1 {
+  align-self: center;
+}
+.admin-questions-icon4 {
+  width: 24px;
+  height: 24px;
+}
+@media(max-width: 991px) {
+  .admin-questions-search {
+    width: 80%;
+    min-width: 0px;
+  }
+}
+@media(max-width: 479px) {
+  .admin-questions-search {
+    flex-direction: row;
+  }
+  .admin-questions-container1 {
+    align-items: center;
+    flex-direction: column;
+  }
+  .admin-questions-button2 {
+    margin-right: 0px;
+    margin-bottom: var(--dl-space-space-unit);
+  }
+}

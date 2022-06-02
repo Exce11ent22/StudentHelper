@@ -1,0 +1,96 @@
+.change-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.change-form {
+  width: var(--dl-size-size-lform2x);
+  margin: auto;
+  position: relative;
+  align-self: flex-start;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.change-container1 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.change-h-container1 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.change-v-container1 {
+  flex: 0 0 auto;
+  width: var(--dl-size-size-lform);
+  display: flex;
+  align-items: flex-start;
+  margin-right: 50px;
+  flex-direction: column;
+}
+.change-textinput {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.change-textinput1 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.change-textinput2 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.change-v-container2 {
+  flex: 0 0 auto;
+  width: var(--dl-size-size-lform);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.change-textinput3 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.change-textinput4 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.change-textinput5 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: 44px;
+}
+.change-button {
+  color: var(--dl-color-gray-white);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  transition: 0.3s;
+  margin-left: auto;
+  border-width: 0px;
+  margin-right: auto;
+  background-color: var(--dl-color-gray-black);
+}
+.change-button:hover {
+  transform: scale(1.05);;
+  box-shadow: 5px 5px 10px 0px #ffe59e;
+  background-color: #f5b916;
+}
+@media(max-width: 991px) {
+  .change-form {
+    width: var(--dl-size-size-lform);
+  }
+  .change-h-container1 {
+    flex-direction: column;
+  }
+}

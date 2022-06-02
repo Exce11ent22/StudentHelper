@@ -1,11 +1,11 @@
+from dataclasses import dataclass
 from datetime import datetime
 
 from flask_login import UserMixin
 from safrs import SAFRSBase
 from sqlalchemy import UniqueConstraint
 
-from app import db
-from app import api
+from app import db, swagger
 
 
 class User(SAFRSBase, db.Model, UserMixin):
@@ -38,6 +38,21 @@ class User(SAFRSBase, db.Model, UserMixin):
     def __repr__(self):
         return "User %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'password': self.password,
+            'year_of_admission': self.year_of_admission,
+            'university': self.university,
+            'rating': self.rating,
+            'speciality': self.speciality,
+            'verified': self.verified,
+            'role': self.role
+        }
+
 
 class Question(SAFRSBase, db.Model):
     """
@@ -56,6 +71,18 @@ class Question(SAFRSBase, db.Model):
     def __repr__(self):
         return "Question %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'header': self.header,
+            'description': self.description,
+            'date_time': self.date_time,
+            'rate': self.rate,
+            'subject_tag': self.subject_tag,
+            'attachment_path': self.attachment_path
+        }
+
 
 class Answer(SAFRSBase, db.Model):
     """
@@ -73,6 +100,17 @@ class Answer(SAFRSBase, db.Model):
     def __repr__(self):
         return "Answer %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'question_id': self.question_id,
+            'description': self.description,
+            'date_time': self.date_time,
+            'rate': self.rate,
+            'attachment_path': self.attachment_path
+        }
+
 
 class Verification(SAFRSBase, db.Model):
     """
@@ -85,6 +123,13 @@ class Verification(SAFRSBase, db.Model):
 
     def __repr__(self):
         return "Verification %r" % self.id
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'attachment_path': self.attachment_path
+        }
 
 
 class Leaderboard(SAFRSBase, db.Model):
@@ -100,6 +145,14 @@ class Leaderboard(SAFRSBase, db.Model):
     def __repr__(self):
         return "Leaderboard %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'rating_increase': self.rating_increase,
+            'points': self.points
+        }
+
 
 class LeaderboardTimestamp(SAFRSBase, db.Model):
     """
@@ -112,6 +165,13 @@ class LeaderboardTimestamp(SAFRSBase, db.Model):
 
     def __repr__(self):
         return "LeaderboardTimestamp %r" % self.id
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'user_rating': self.user_rating
+        }
 
 
 class UserAndQuestion(SAFRSBase, db.Model):
@@ -128,6 +188,14 @@ class UserAndQuestion(SAFRSBase, db.Model):
     def __repr__(self):
         return "UserAndQuestion %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'question_id': self.question_id,
+            'is_vote_up': self.is_vote_up
+        }
+
 
 class UserAndAnswer(SAFRSBase, db.Model):
     """
@@ -143,15 +211,23 @@ class UserAndAnswer(SAFRSBase, db.Model):
     def __repr__(self):
         return "UserAndAnswer %r" % self.id
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'answer_id': self.answer_id,
+            'is_vote_up': self.is_vote_up
+        }
 
-api.expose_object(User)
-api.expose_object(Question)
-api.expose_object(Answer)
-api.expose_object(Verification)
-api.expose_object(Leaderboard)
-api.expose_object(LeaderboardTimestamp)
-api.expose_object(UserAndQuestion)
-api.expose_object(UserAndAnswer)
+
+swagger.expose_object(User)
+swagger.expose_object(Question)
+swagger.expose_object(Answer)
+swagger.expose_object(Verification)
+swagger.expose_object(Leaderboard)
+swagger.expose_object(LeaderboardTimestamp)
+swagger.expose_object(UserAndQuestion)
+swagger.expose_object(UserAndAnswer)
 
 
 if __name__ == '__main__':

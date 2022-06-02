@@ -1,7 +1,6 @@
 import os
 
-from flask import Blueprint, render_template, url_for, flash, request, send_file
-from flask_login import login_required, current_user
+from flask import Blueprint, url_for, flash, request, send_file, jsonify
 from werkzeug.utils import redirect
 
 import config
@@ -14,54 +13,45 @@ ELEMENTS_PER_PAGE = 3
 SEARCH_ELEMENTS = 50
 
 
-@admin.route('/admin_questions')
-@login_required
+@admin.route('/admin_questions', methods=['POST'])
 def questions():
-    if not current_user.is_administrator or not current_user.is_moderator:
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     return redirect(url_for('admin.questions_pagination', page=1))
 
 
 @admin.route('/admin_questions/search', methods=['POST'])
-@login_required
 def search_questions():
-    if not current_user.is_administrator or not current_user.is_moderator:
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
-    if request.method == 'POST':
-        search = request.form['search']
-        search = search.lower()
-        questions = Question.query.all()
-        by_header = [question for question in questions if search in str(question.header).lower()]
-        by_subj_tag = [question for question in questions if search in str(question.subject_tag).lower()]
-        by_description = [question for question in questions if search in str(question.description).lower()]
-        questions = by_header + by_subj_tag + by_description
-        if len(questions) == 0:
-            flash('Ничего не найдено')
-            return redirect(url_for('user.questions'))
-        end = SEARCH_ELEMENTS
-        if len(questions) < end:
-            end = len(questions)
-        questions = questions[:end]
-        questions = [(question, User.query.get(question.user_id)) for question in questions]
-        return render_template(
-            'admin/admin_questions.html',
-            questions=questions,
-            page=1,
-            has_next=False,
-            has_prev=False
-        )
-    else:
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
+    search = request.form['search']
+    search = search.lower()
+    questions = Question.query.all()
+    by_header = [question for question in questions if search in str(question.header).lower()]
+    by_subj_tag = [question for question in questions if search in str(question.subject_tag).lower()]
+    by_description = [question for question in questions if search in str(question.description).lower()]
+    questions = by_header + by_subj_tag + by_description
+    if len(questions) == 0:
+        flash('Ничего не найдено')
         return redirect(url_for('user.questions'))
+    end = SEARCH_ELEMENTS
+    if len(questions) < end:
+        end = len(questions)
+    questions = questions[:end]
+    questions = [(question.to_dict(), User.query.get(question.user_id).to_dict()) for question in questions]
+    return jsonify(questions)
 
 
-@admin.route('/admin_questions/<int:page>', methods=['GET', 'POST'])
-@login_required
+@admin.route('/admin_questions/<int:page>', methods=['POST'])
 def questions_pagination(page):
-    if not current_user.is_administrator or not current_user.is_moderator:
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     if page == 0:
         return redirect(url_for('admin.questions_pagination', page=1))
     questions = Question.query.all()
@@ -83,42 +73,32 @@ def questions_pagination(page):
         has_next = False
         end = questions_len
     questions = questions[start:end]
-    questions = [(question, User.query.get(question.user_id)) for question in questions]
-    return render_template(
-        'admin/admin_questions.html',
-        questions=questions,
-        page=page,
-        has_next=has_next,
-        has_prev=has_prev
-    )
+    questions = [(question.to_dict(), User.query.get(question.user_id).to_dict()) for question in questions]
+    return jsonify(questions)
 
 
-@admin.route('/admin_question/<int:question_id>', methods=['GET', 'POST'])
-@login_required
+@admin.route('/admin_question/<int:question_id>', methods=['POST'])
 def question(question_id):
-    if not current_user.is_administrator or not current_user.is_moderator:
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     question = Question.query.get(question_id)
     if not question:
         flash('Такого вопроса нет!')
         return redirect(url_for('admin.questions'))
     user = User.query.get(question.user_id)
     answers = Answer.query.filter_by(question_id=question.id)
-    answers = [(answer, User.query.get(answer.user_id)) for answer in answers]
-    return render_template(
-        'admin/admin_question.html',
-        question=question,
-        user=user,
-        answers=answers)
+    answers = [(answer.to_dict(), User.query.get(answer.user_id).to_dict()) for answer in answers]
+    return jsonify(question.to_dict(), user.to_dict(), answers)
 
 
-@admin.route('/admin_question/delete/<int:question_id>')
-@login_required
+@admin.route('/admin_question/delete/<int:question_id>', methods=['POST'])
 def question_delete(question_id):
-    if not current_user.is_administrator or not current_user.is_moderator:
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     try:
         question = Question.query.get(question_id)
         if question.attachment_path:
@@ -126,18 +106,19 @@ def question_delete(question_id):
             os.remove(path)
         db.session.delete(question)
         db.session.commit()
-        return redirect(url_for('admin.questions'))
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Такого вопроса нет!')
-        return redirect(url_for('admin.questions'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/admin_answer/delete/<int:answer_id>')
-@login_required
+@admin.route('/admin_answer/delete/<int:answer_id>', methods=['POST'])
 def answer_delete(answer_id):
-    if not (current_user.is_administrator() or current_user.is_moderator()):
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator or not user.is_moderator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     try:
         answer = Answer.query.get(answer_id)
         print('нашел ответ')
@@ -147,77 +128,74 @@ def answer_delete(answer_id):
             os.remove(path)
         db.session.delete(answer)
         db.session.commit()
-        return redirect(url_for('admin.question', question_id=question_id))
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Такого ответа нет!')
-        return redirect(url_for('admin.questions'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/list_of_administrators')
-@login_required
+@admin.route('/list_of_administrators', methods=['POST'])
 def list_of_admins():
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     admins = User.query.filter_by(role=User.ADMINISTRATOR).all()
     moders = User.query.filter_by(role=User.MODERATOR).all()
-    return render_template(
-        'admin/admin_list_of_administrators.html',
-        admins=admins,
-        moders=moders
-    )
+    return jsonify([admin.to_dict() for admin in admins], [moder.to_dict() for moder in moders])
 
 
-@admin.route('/admin_verifications')
-@login_required
+@admin.route('/admin_verifications', methods=['POST'])
 def verifications():
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     verifs = Verification.query.all()
-    verifs = [(verif, User.query.get(verif.user_id)) for verif in verifs]
-    return render_template('admin/admin_verifications.html', verifs=verifs)
+    verifs = [(verif.to_dict(), User.query.get(verif.user_id).to_dict()) for verif in verifs]
+    return jsonify(verifs)
 
 
-@admin.route('/admin_verification/<int:verif_id>')
-@login_required
+@admin.route('/admin_verification/<int:verif_id>', methods=['POST'])
 def verification(verif_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     verif = Verification.query.get(verif_id)
     if not verif:
-        flash('Такой заявки нет!')
-        return redirect(url_for('admin.verifications'))
+        message = {'error': 'No such verification order'}
+        return jsonify(message)
     user = User.query.get(verif.user_id)
-    return render_template('admin/admin_verification.html', verif=verif, user=user)
+    return jsonify(verif.to_dict(), user.to_dict())
 
 
-@admin.route('/admin_verification/<int:verif_id>/download')
-@login_required
+@admin.route('/admin_verification/<int:verif_id>/download', methods=['POST'])
 def verification_download(verif_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     verif = Verification.query.get(verif_id)
     if not verif:
-        flash('Такой заявки нет нет!')
-        return redirect(url_for('user.questions'))
+        message = {'error': 'No such verification order'}
+        return jsonify(message)
 
     path = config.BASE_DIR + verif.attachment_path
     try:
         return send_file(path_or_file=path, as_attachment=True)
     except:
-        flash('Такого файла не найдено!')
-        return redirect(url_for('admin.verifications'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/accept_verification/<int:verif_id>')
-@login_required
+@admin.route('/accept_verification/<int:verif_id>', methods=['POST'])
 def accept_verification(verif_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     verif = Verification.query.get(verif_id)
     if not verif:
         flash('Такой заявки нет нет!')
@@ -229,107 +207,112 @@ def accept_verification(verif_id):
         user.verified = True
         db.session.delete(verif)
         db.session.commit()
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Что-то пошло не так')
-    return redirect(url_for('admin.verifications'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/delete_verification/<int:verif_id>')
-@login_required
+@admin.route('/delete_verification/<int:verif_id>', methods=['POST'])
 def delete_verification(verif_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     verif = Verification.query.get(verif_id)
     if not verif:
-        flash('Такой заявки нет нет!')
-        return redirect(url_for('user.questions'))
+        message = {'error': 'No such verification order'}
+        return jsonify(message)
     try:
         path = os.path.join(config.BASE_DIR, verif.attachment_path[1:])
         os.remove(path)
         db.session.delete(verif)
         db.session.commit()
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Что-то пошло не так')
-    return redirect(url_for('admin.verifications'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/assign_role', methods=['GET', 'POST'])
-@login_required
+@admin.route('/assign_role', methods=['POST'])
 def assign_role():
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
-    if request.method == 'POST':
-        email = request.form['email']
-        role = request.form['role']
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            flash('Такого пользователя нет')
-            return redirect(url_for('admin.assign_role'))
-        if user.role == User.MODERATOR or user.role == User.ADMINISTRATOR:
-            flash('Пользователь уже имеет управляющую роль')
-            return redirect(url_for('admin.assign_role'))
-        try:
-            user.role = User.MODERATOR if role == 'moderator' else User.ADMINISTRATOR
-            db.session.commit()
-        except:
-            flash('Что-то пошло не так')
-            return redirect(url_for('admin.assign_role'))
-    return render_template('admin/admin_assign_role.html')
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
+    email = request.form['email']
+    role = request.form['role']
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        message = {'error': 'No such user'}
+        return jsonify(message)
+    if user.role == User.MODERATOR or user.role == User.ADMINISTRATOR:
+        message = {'error': 'The user is already has a role'}
+        return jsonify(message)
+    try:
+        user.role = User.MODERATOR if role == 'moderator' else User.ADMINISTRATOR
+        db.session.commit()
+        message = {'message': 'Success'}
+        return jsonify(message)
+    except:
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/delete_role/<int:user_id>')
-@login_required
+@admin.route('/delete_role/<int:user_id>', methods=['POST'])
 def delete_role(user_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     user = User.query.get(user_id)
     if not user:
-        flash('Такого пользователя нет')
-        return redirect(url_for('admin.list_of_admins'))
+        message = {'error': 'No such user'}
+        return jsonify(message)
     try:
         user.role = User.USER
         db.session.commit()
-        return redirect(url_for('admin.list_of_admins'))
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Что-то пошло не так')
-        return redirect(url_for('admin.'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
-@admin.route('/change_role/<int:user_id>', methods=['GET', 'POST'])
-@login_required
+@admin.route('/change_role/<int:user_id>', methods=['POST'])
 def change_role(user_id):
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     user = User.query.get(user_id)
     if not user:
-        flash('Такого пользователя нет')
-        return redirect(url_for('admin.list_of_admins'))
-    if request.method == 'POST':
-        role = request.form['role']
-        try:
-            user.role = User.MODERATOR if role == 'moderator' else User.ADMINISTRATOR
-            print(user.role)
-            db.session.commit()
-            return redirect(url_for('admin.list_of_admins'))
-        except:
-            flash('Что-то пошло не так')
-    return render_template('admin/admin_change_role.html')
+        message = {'error': 'No such user'}
+        return jsonify(message)
+    role = request.form['role']
+    try:
+        user.role = User.MODERATOR if role == 'moderator' else User.ADMINISTRATOR
+        print(user.role)
+        db.session.commit()
+        message = {'message': 'Success'}
+        return jsonify(message)
+    except:
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 
 
 def get_views_from_api():
     return 15000
 
 
-@admin.route('/leaderboard_refresh')
-@login_required
+@admin.route('/leaderboard_refresh', methods=['POST'])
 def leaderboard_refresh():
-    if not current_user.is_administrator():
-        flash('Доступ запрещен')
-        return redirect(url_for('index'))
+    user = User.query.get(request.form['user_id'])
+    if not user.is_administrator:
+        message = {'error': 'Access denied'}
+        return jsonify(message)
     try:
         Leaderboard.query.delete()
         users = User.query.all()
@@ -359,8 +342,9 @@ def leaderboard_refresh():
                 )
             )
         db.session.commit()
-        return redirect(url_for('user.leaderboard'))
+        message = {'message': 'Success'}
+        return jsonify(message)
     except:
-        flash('Что-то пошло не так')
-        return redirect(url_for('admin.questinos'))
+        message = {'error': 'Something wrong'}
+        return jsonify(message)
 

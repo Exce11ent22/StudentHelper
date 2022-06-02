@@ -1,0 +1,101 @@
+.registration-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.registration-form {
+  width: var(--dl-size-size-lform2x);
+  margin: auto;
+  position: relative;
+  align-self: flex-start;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.registration-h-container1 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.registration-v-container1 {
+  flex: 0 0 auto;
+  width: var(--dl-size-size-lform);
+  display: flex;
+  align-items: flex-start;
+  margin-right: 50px;
+  flex-direction: column;
+}
+.registration-textinput {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-textinput1 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-textinput2 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-textinput3 {
+  width: 100%;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-v-container2 {
+  flex: 0 0 auto;
+  width: var(--dl-size-size-lform);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.registration-textinput4 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-textinput5 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.registration-textinput6 {
+  width: var(--dl-size-size-lform);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-bottom: 44px;
+}
+.registration-button {
+  color: var(--dl-color-gray-white);
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  transition: 0.3s;
+  margin-left: auto;
+  border-width: 0px;
+  margin-right: auto;
+  background-color: var(--dl-color-gray-black);
+}
+.registration-button:hover {
+  transform: scale(1.05);;
+  box-shadow: 5px 5px 10px 0px #ffe59e;
+  background-color: #f5b916;
+}
+@media(max-width: 991px) {
+  .registration-form {
+    width: var(--dl-size-size-lform);
+  }
+  .registration-h-container1 {
+    flex-direction: column;
+  }
+}
+@media(max-width: 767px) {
+  .registration-form {
+    width: 80%;
+    max-width: var(--dl-size-size-lform);
+  }
+}

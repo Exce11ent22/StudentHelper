@@ -19,6 +19,8 @@
 * [Технические подробности backend'а](https://youtu.be/8HxwGxeYq4U?t=1308)
 * [Технические подробности frontend'а](https://youtu.be/8HxwGxeYq4U?t=1982)
 
+* [Видео]() презентации
+
 ## Данные для входа в профиль администратора
 * email: Tarasov.vyacheslav90@gmail.com
 * password: BestPa$$word12345
